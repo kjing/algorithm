@@ -36,7 +36,7 @@ namespace algorithm
     /// Get the current wall clock time.
     /// \return The amount of wall clock time that have elapsed since
     ///         an arbitrary point in the past.
-    inline WallTime get_wall_time(void);
+    WallTime get_wall_time(void);
 
     /// Get the elapsed wall clock time elapsed between <b>t1</b> and <b>t2</b>.
     /// \param t1 The start time.
@@ -52,14 +52,14 @@ namespace algorithm
 
 namespace algorithm
 {
-    WallTime get_wall_time(void)
+    inline WallTime get_wall_time(void)
     {
         struct tms buf;
         return times(&buf);
     }
 
 
-    double elapsed(WallTime t1, WallTime t2)
+    inline double elapsed(WallTime t1, WallTime t2)
     {
         long nticks = sysconf(_SC_CLK_TCK); // Number of clock ticks per second.
         return static_cast<double>(t2 - t1) / nticks;
