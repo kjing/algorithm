@@ -38,7 +38,7 @@ namespace algorithm
     ///         an arbitrary point in the past.
     WallTime get_wall_time(void);
 
-    /// Get the elapsed wall clock time elapsed between <b>t1</b> and <b>t2</b>.
+    /// Get the wall clock time elapsed between <b>t1</b> and <b>t2</b>.
     /// \param t1 The start time.
     /// \param t2 The stop time.
     /// \return The number of seconds between <b>t1</b> and <b>t2</b>.
