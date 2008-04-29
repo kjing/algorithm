@@ -37,6 +37,17 @@ namespace algorithm
     /// \return The greatest common divisor of the two numbers.
     template <typename T>
     T euclid(T a, T b);
+
+    /// \brief Compute the greatest common divisor of two numbers and its coefficients
+    ///        using the Extended Euclid's algorithm.
+    /// \param T The data type of the numbers.
+    /// \param[in] a The first number.
+    /// \param[in] b The second number.
+    /// \param[out] x The first coefficient.
+    /// \param[out] y The second coefficient.
+    /// \return The greatest common divisor of the two numbers.
+    template <typename T>
+    T euclid(T a, T b, T* x, T* y);
 } // namespace algorithm
 
 
@@ -59,6 +70,29 @@ namespace algorithm
         } else {
             return euclid(b, a % b);
         }
+    }
+
+
+    /// \note gcd(a,b) = ax + by
+    /// \par References:
+    /// Introduction to Algorithms - T. H. Cormen, C. E. Leiserson, R. L. Rivest & C. Stein
+    template <typename T>
+    T euclid(T a, T b, T* x, T* y)
+    {
+        assert(a >= T(0));
+        assert(b >= T(0));
+
+        if (b == T(0)) {
+            *x = T(1);
+            *y = T(0);
+            return a;
+        }
+        T x2;
+        T y2;
+        T d = euclid(b, a%b, &x2, &y2);
+        *x = y2;
+        *y = x2 - (a/b)*y2;
+        return d;
     }
 } // namespace algorithm
 
