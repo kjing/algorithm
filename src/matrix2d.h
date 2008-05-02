@@ -27,7 +27,6 @@
 #define MATRIX2D_H
 
 #include <cassert>
-#include <cstring>
 #include <iostream>
 
 namespace algorithm
@@ -142,7 +141,9 @@ namespace algorithm
 
         assert(m_data != NULL);
 
-        std::memcpy(m_data, rhs.m_data, size*sizeof(T));
+        for (long i = 0; i < size; i++) {
+            m_data[i] = rhs.m_data[i];
+        }
         return *this;
     }
 
