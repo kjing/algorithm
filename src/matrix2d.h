@@ -132,14 +132,16 @@ namespace algorithm
         long size;
 
         if (this == &rhs) return *this;
-        delete[] m_data;
 
-        m_nrow = rhs.m_nrow;
-        m_ncol = rhs.m_ncol;
         size = m_nrow * m_ncol;
-        m_data = new T[size];
+        if (m_nrow != rhs.m_nrow || m_ncol != rhs.m_ncol) {
+            delete[] m_data;
+            m_nrow = rhs.m_nrow;
+            m_ncol = rhs.m_ncol;
+            m_data = new T[size];
 
-        assert(m_data != NULL);
+            assert(m_data != NULL);
+        }
 
         for (long i = 0; i < size; i++) {
             m_data[i] = rhs.m_data[i];
