@@ -32,16 +32,16 @@ namespace algorithm
 {
     /// \brief Sort the \b length elements using the Insertion Sort algorithm.
     /// \param T The data type of the elements.
-    /// \param data The pointer to the list of elements.
-    /// \param length The number of elements.
+    /// \param[in,out] data The pointer to the list of elements.
+    /// \param[in] length The number of elements.
     template <typename T>
     void insertion_sort(T* data, long length);
 
     /// \brief Sort the elements from \b istart to \b iend using the Insertion Sort algorithm.
     /// \param T The data type of the elements.
-    /// \param data The pointer to the list of elements.
-    /// \param istart The index of the first elements to sort.
-    /// \param iend The index of the last elements to sort.
+    /// \param[in,out] data The pointer to the list of elements.
+    /// \param[in] istart The index of the first elements to sort.
+    /// \param[in] iend The index of the last elements to sort.
     template <typename T>
     void insertion_sort(T* data, long istart, long iend);
 } // namespace algorithm
