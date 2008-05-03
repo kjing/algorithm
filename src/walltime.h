@@ -71,8 +71,7 @@ namespace algorithm
 
     inline double elapsed_time(WallTime t1, WallTime t2)
     {
-        long nticks = sysconf(_SC_CLK_TCK); // Number of clock ticks per second.
-        return static_cast<double>(t2 - t1) / nticks;
+        return static_cast<double>(elapsed_ticks(t1, t2)) / nticks_per_second();
     }
 
 
