@@ -42,7 +42,7 @@ namespace algorithm
     /// \param t1 The start time.
     /// \param t2 The stop time.
     /// \return The number of seconds between <b>t1</b> and <b>t2</b>.
-    double elapsed(WallTime t1, WallTime t2);
+    double elapsed_time(WallTime t1, WallTime t2);
 
     /// Get the number of clock ticks elapsed between <b>t1</b> and <b>t2</b>.
     /// \param t1 The start time.
@@ -69,7 +69,7 @@ namespace algorithm
     }
 
 
-    inline double elapsed(WallTime t1, WallTime t2)
+    inline double elapsed_time(WallTime t1, WallTime t2)
     {
         long nticks = sysconf(_SC_CLK_TCK); // Number of clock ticks per second.
         return static_cast<double>(t2 - t1) / nticks;
