@@ -26,6 +26,7 @@
 #ifndef BINARYTREE_H
 #define BINARYTREE_H
 
+#include <cassert>
 #include <vector>
 
 namespace algorithm
@@ -78,6 +79,14 @@ namespace algorithm
         /// \return The index of a free node.
         long create_node(long parent, long left, long right,
                          const Key& key, const Value& value);
+
+        /// \brief Perform consistency check on the tree.
+        /// \return true if the tree is consistent, false otherwise.
+        bool is_consistent(void) const;
+        /// \brief Perform consistency check on the sub-tree rooted at node <b>nid</b>.
+        /// \param[in] nid The index of the root node of the sub-tree.
+        /// \return true if the sub-tree rooted at node <b>nid</b> is consistent, false otherwise.
+        bool is_consistent(long nid) const;
 
         static const long m_block_size; ///< The number of nodes in a block.
         long m_root; ///< The index of the root node.
@@ -215,6 +224,56 @@ namespace algorithm
         m_nodes[nid].value = value;
 
         return nid;
+    }
+
+
+    template <typename Key, typename Value>
+    inline bool BinaryTree<Key, Value>::is_consistent(void) const
+    {
+        return is_consistent(m_root);
+    }
+
+
+    template <typename Key, typename Value>
+    bool BinaryTree<Key, Value>::is_consistent(long nid) const
+    {
+        if (nid < 0) return true;
+
+        long parent = m_nodes[nid].parent;
+        long left = m_nodes[nid].left;
+        long right = m_nodes[nid].right;
+
+        if (parent >= 0) {
+            bool parent_link_ok = (m_nodes[parent].left == nid || m_nodes[parent].right == nid);
+            bool parent_unique_children = (m_nodes[parent].left != m_nodes[parent].right);
+
+            assert(parent_link_ok);
+            assert(parent_unique_children);
+
+            if (parent_link_ok == false) return false;
+            if (parent_unique_children == false) return false;
+        }
+        if (left >= 0) {
+            bool left_link_ok = (m_nodes[left].parent == nid);
+            bool left_subtree_ok = is_consistent(left);
+
+            assert(left_link_ok);
+            assert(left_subtree_ok);
+
+            if (left_link_ok == false) return false;
+            if (left_subtree_ok == false) return false;
+        }
+        if (right >= 0) {
+            bool right_link_ok = (m_nodes[right].parent == nid);
+            bool right_subtree_ok = is_consistent(right);
+
+            assert(right_link_ok);
+            assert(right_subtree_ok);
+
+            if (right_link_ok == false) return false;
+            if (right_subtree_ok == false) return false;
+        }
+        return true;
     }
 } // namespace algorithm
 
