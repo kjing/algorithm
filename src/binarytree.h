@@ -90,6 +90,11 @@ namespace algorithm
         /// \return The index of the node with maximum value.
         long max(long nid) const;
 
+        /// \brief Find the successor of the node <b>nid</b>.
+        /// \param[in] nid The index of the predecessor node.
+        /// \return The index of the successor node.
+        long successor(long nid) const;
+
         /// \brief Perform consistency check on the tree.
         /// \return true if the tree is consistent, false otherwise.
         bool is_consistent(void) const;
@@ -258,6 +263,27 @@ namespace algorithm
             nid = m_nodes[nid].right;
         }
         return nid;
+    }
+
+
+    template <typename Key, typename Value>
+    long BinaryTree<Key, Value>::successor(long nid) const
+    {
+        assert(nid >= 0);
+
+        long sid; // Successor node index.
+
+        if (m_nodes[nid].right >= 0) {
+            return min(m_nodes[nid].right);
+        }
+
+        sid = m_nodes[nid].parent;
+        while (sid >= 0 && nid == m_nodes[sid].right) {
+            nid = sid;
+            sid = m_nodes[sid].parent;
+        }
+
+        return sid;
     }
 
 
