@@ -54,6 +54,11 @@ namespace algorithm
         /// \return true if an element with <b>key</b> is inserted, false otherwise.
         bool insert(const Key& key, const Value& value);
 
+        /// \brief Remove the element with <b>key</b> in the tree.
+        /// \param[in] key The key of the element to remove.
+        /// \return true if an element with <b>key</b> is removed, false otherwise.
+        bool remove(const Key& key);
+
     private:
         /// \brief The data type of the tree node.
         typedef struct {
@@ -70,6 +75,10 @@ namespace algorithm
         /// \return The index of the node or element with <b>key</b> if found, -1 otherwise.
         long search_node(const Key& key) const;
 
+        /// \brief Remove the node with index <b>nid</b>.
+        /// \param[in] nid The index of the node to remove.
+        void remove(long nid);
+
         /// \brief Get and initialize a free node.
         /// \param[in] parent The index of the parent node.
         /// \param[in] left The index of the left child node.
@@ -79,6 +88,10 @@ namespace algorithm
         /// \return The index of a free node.
         long create_node(long parent, long left, long right,
                          const Key& key, const Value& value);
+
+        /// \brief Return the node <b>nid</b> to the free-node list.
+        /// \param[in] nid The index of the node to return.
+        void recycle_node(long nid);
 
         /// \brief Find the node with minimum value in the sub-tree rooted at node <b>nid</b>.
         /// \param[in] nid The index of the root node of the sub-tree.
@@ -206,6 +219,64 @@ namespace algorithm
     }
 
 
+    template <typename Key, typename Value>
+    bool BinaryTree<Key, Value>::remove(const Key& key)
+    {
+        long nid = search_node(key);
+        if (nid >= 0) {
+            remove(nid);
+            return true;
+        }
+        return false;
+    }
+
+
+    /// \par References:
+    /// Introduction to Algorithms - T. H. Cormen, C. E. Leiserson, R. L. Rivest & C. Stein
+    template <typename Key, typename Value>
+    void BinaryTree<Key, Value>::remove(long nid)
+    {
+        assert(nid >= 0);
+
+        long xid, yid;
+        if (m_nodes[nid].left < 0 || m_nodes[nid].right < 0) {
+            yid = nid;
+        } else {
+            yid = successor(nid);
+        }
+
+        if (m_nodes[yid].left >= 0) {
+            xid = m_nodes[yid].left;
+        } else {
+            xid = m_nodes[yid].right;
+        }
+
+        if (xid >= 0) {
+            m_nodes[xid].parent = m_nodes[yid].parent;
+        }
+
+        if (m_nodes[yid].parent < 0) {
+            m_root = xid;
+        } else {
+            if (yid == m_nodes[m_nodes[yid].parent].left) {
+                m_nodes[m_nodes[yid].parent].left = xid;
+            } else {
+                m_nodes[m_nodes[yid].parent].right = xid;
+            }
+        }
+
+        if (yid != nid) {
+            m_nodes[nid].key = m_nodes[yid].key;
+            m_nodes[nid].value = m_nodes[yid].value;
+        }
+
+        if (yid >= 0) {
+            --m_size;
+            recycle_node(yid);
+        }
+    }
+
+
     /// \warning This may re-allocate <b>m_nodes</b>, and invalidate all
     ///          references to <b>m_nodes</b>.
     template <typename Key, typename Value>
@@ -239,6 +310,89 @@ namespace algorithm
         m_nodes[nid].value = value;
 
         return nid;
+    }
+
+
+    template <typename Key, typename Value>
+    void BinaryTree<Key, Value>::recycle_node(long nid)
+    {
+        assert(nid >= 0);
+
+        m_nodes[nid].parent = -1;
+        m_nodes[nid].left = -1;
+        m_nodes[nid].right = m_free_head;
+        m_free_head = nid;
+        long nsize = m_nodes.size();
+        if (nsize >= m_size*2 && nsize >= m_block_size*3) {
+            // Reduce 1 block size.
+            long rid = nsize-1; // Recycle-node ID.
+            for (long i = 0; i < m_block_size; ++i, --rid) {
+                // Only root or free nodes have parent links as -1.
+                // And we should re-locate the root node if encountered.
+                if (m_nodes[rid].parent < 0 && rid != m_root) {
+                    continue;
+                }
+
+                long fid = m_free_head; // Free-node index.
+                while (fid >= nsize - m_block_size) {
+                    if (m_nodes[fid].left >= 0) {
+                        m_nodes[m_nodes[fid].left].right = m_nodes[fid].right;
+                    }
+                    if (m_nodes[fid].right >= 0) {
+                        m_nodes[m_nodes[fid].right].left = m_nodes[fid].left;
+                    }
+                    long next = m_nodes[fid].right;
+                    m_nodes[fid].parent = -1;
+                    m_nodes[fid].left = -1;
+                    m_nodes[fid].right = -1;
+                    fid = next;
+                    // assert(fid >= 0);
+                }
+                if (fid < 0) continue;
+                long fid_parent;
+                long fid_left = m_nodes[fid].left;
+                long fid_right = m_nodes[fid].right;
+                assert(m_nodes[fid].parent == -1);
+                if (fid_left >= 0) {
+                    m_nodes[fid_left].right = m_nodes[fid].right;
+                } else {
+                    // Only head node has left == -1.
+                    m_free_head = m_nodes[fid].right;
+                }
+                if (fid_right >= 0) {
+                    m_nodes[fid_right].left = m_nodes[fid].left;
+                }
+                m_nodes[fid].parent = -1;
+                m_nodes[fid].left = -1;
+                m_nodes[fid].right = -1;
+
+                m_nodes[fid] = m_nodes[rid];
+
+                // Update neighbour nodes.
+                fid_parent = m_nodes[fid].parent;
+                fid_left = m_nodes[fid].left;
+                fid_right = m_nodes[fid].right;
+                if (fid_parent >= 0) {
+                    if (m_nodes[fid_parent].left == rid) {
+                        m_nodes[fid_parent].left = fid;
+                    } else {
+                        assert(m_nodes[fid_parent].right == rid);
+                        m_nodes[fid_parent].right = fid;
+                    }
+                } else {
+                    m_root = fid;
+                }
+                if (fid_left >= 0) {
+                    assert(m_nodes[fid_left].parent == rid);
+                    m_nodes[fid_left].parent = fid;
+                }
+                if (fid_right >= 0) {
+                    assert(m_nodes[fid_right].parent == rid);
+                    m_nodes[fid_right].parent = fid;
+                }
+            }
+            m_nodes.resize(nsize - m_block_size);
+        }
     }
 
 
