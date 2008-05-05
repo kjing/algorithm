@@ -85,6 +85,11 @@ namespace algorithm
         /// \return The index of the node with minimum value.
         long min(long nid) const;
 
+        /// \brief Find the node with maximum value in the sub-tree rooted at node <b>nid</b>.
+        /// \param[in] nid The index of the root node of the sub-tree.
+        /// \return The index of the node with maximum value.
+        long max(long nid) const;
+
         /// \brief Perform consistency check on the tree.
         /// \return true if the tree is consistent, false otherwise.
         bool is_consistent(void) const;
@@ -239,6 +244,18 @@ namespace algorithm
 
         while (m_nodes[nid].left >= 0) {
             nid = m_nodes[nid].left;
+        }
+        return nid;
+    }
+
+
+    template <typename Key, typename Value>
+    long BinaryTree<Key, Value>::max(long nid) const
+    {
+        assert(nid >= 0);
+
+        while (m_nodes[nid].right >= 0) {
+            nid = m_nodes[nid].right;
         }
         return nid;
     }
