@@ -41,22 +41,25 @@ namespace algorithm
 
         Stack& operator=(const Stack& rhs);
 
+        /// \brief Is the stack empty?
         /// \return true if the stack has no elements.
         bool empty(void);
 
-        /// Pop an element out of the stack if the stack is non-empty, otherwise, do nothing.
+        /// \brief Pop an element out of the stack if the stack is non-empty, do nothing otherwise.
         void pop(void);
 
-        /// Push an element into the stack.
+        /// \brief Push an element into the stack.
         /// \param[in] v The element to push into the stack.
-        /// \note The element \b v is copied during the push.
+        /// \note The element <b>v</b> is copied during the push.
         void push(const T& v);
 
-        /// \note It's an error to access the top element when the stack is empty.
+        /// \brief Get the top element in the stack.
+        /// \warning It's an error to access the top element when the stack is empty.
         /// \return The top element in the stack.
         T& top(void);
         const T& top() const;
 
+        /// \brief Get the number of elements in the stack.
         /// \return The number of elements in the stack.
         long size(void) const;
 
