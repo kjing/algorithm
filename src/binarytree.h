@@ -77,7 +77,7 @@ namespace algorithm
 
         /// \brief Remove the node with index <b>nid</b>.
         /// \param[in] nid The index of the node to remove.
-        void remove(long nid);
+        void remove_node(long nid);
 
         /// \brief Get and initialize a free node.
         /// \param[in] parent The index of the parent node.
@@ -224,7 +224,7 @@ namespace algorithm
     {
         long nid = search_node(key);
         if (nid >= 0) {
-            remove(nid);
+            remove_node(nid);
             return true;
         }
         return false;
@@ -234,7 +234,7 @@ namespace algorithm
     /// \par References:
     /// Introduction to Algorithms - T. H. Cormen, C. E. Leiserson, R. L. Rivest & C. Stein
     template <typename Key, typename Value>
-    void BinaryTree<Key, Value>::remove(long nid)
+    void BinaryTree<Key, Value>::remove_node(long nid)
     {
         assert(nid >= 0);
 
