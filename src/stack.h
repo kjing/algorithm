@@ -43,7 +43,7 @@ namespace algorithm
 
         /// \brief Is the stack empty?
         /// \return true if the stack has no elements.
-        bool empty(void);
+        bool empty(void) const;
 
         /// \brief Pop an element out of the stack if the stack is non-empty, do nothing otherwise.
         void pop(void);
@@ -155,7 +155,7 @@ namespace algorithm
 
 
     template <typename T>
-    bool Stack<T>::empty(void)
+    bool Stack<T>::empty(void) const
     {
         return (m_index == -1);
     }
