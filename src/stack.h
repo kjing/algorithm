@@ -57,7 +57,7 @@ namespace algorithm
         /// \warning It's an error to access the top element when the stack is empty.
         /// \return The top element in the stack.
         T& top(void);
-        const T& top() const;
+        const T& top(void) const;
 
         /// \brief Get the number of elements in the stack.
         /// \return The number of elements in the stack.
@@ -218,7 +218,7 @@ namespace algorithm
     {
         assert(!empty());
 
-        const T*& last_block = m_data.back();
+        const T* const& last_block = m_data.back();
         return last_block[m_index];
     }
 
