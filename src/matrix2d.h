@@ -133,7 +133,7 @@ namespace algorithm
 
         if (this == &rhs) return *this;
 
-        size = m_nrow * m_ncol;
+        size = rhs.m_nrow * rhs.m_ncol;
         if (m_nrow != rhs.m_nrow || m_ncol != rhs.m_ncol) {
             delete[] m_data;
             m_nrow = rhs.m_nrow;
