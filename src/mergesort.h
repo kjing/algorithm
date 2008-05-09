@@ -90,6 +90,8 @@ namespace algorithm
         long m = n - k;
         long ia = 0, ib = 0, ic = 0;
 
+        assert(istart <= mid && mid < iend);
+
         T* a = &data[istart];
         T* b = &data[mid+1];
         T* c = new T[n];
