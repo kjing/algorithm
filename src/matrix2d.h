@@ -257,6 +257,10 @@ namespace algorithm
     template <typename T>
     bool Matrix2D<T>::operator==(const Matrix2D<T>& rhs)
     {
+        if (m_nrow != rhs.m_nrow || m_ncol != rhs.m_ncol) {
+            return false;
+        }
+
         assert(m_nrow == rhs.m_nrow && m_ncol == rhs.m_ncol);
 
         const Matrix2D<T>& lhs = *this;
