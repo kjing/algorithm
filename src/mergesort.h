@@ -128,4 +128,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // MERGESORT_H
-
