@@ -54,4 +54,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // GCD_H
-
