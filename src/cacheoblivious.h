@@ -181,4 +181,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // CACHEOBLIVIOUS_H
-
