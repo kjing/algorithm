@@ -231,4 +231,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // STACK_H
-
