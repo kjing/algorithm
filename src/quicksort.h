@@ -106,4 +106,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // QUICKSORT_H
-
