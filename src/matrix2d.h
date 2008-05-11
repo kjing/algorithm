@@ -320,4 +320,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // MATRIX2D_H
-
