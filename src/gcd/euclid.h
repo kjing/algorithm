@@ -97,4 +97,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // EUCLID_H
-
