@@ -492,4 +492,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // BINARYTREE_H
-
