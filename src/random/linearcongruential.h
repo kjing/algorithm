@@ -84,4 +84,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // LINEARCONGRUENTIAL_H
-
