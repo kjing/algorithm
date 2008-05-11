@@ -88,4 +88,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // WALLTIME_H
-
