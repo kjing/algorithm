@@ -104,4 +104,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // KMP_H
-
