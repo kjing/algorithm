@@ -101,4 +101,3 @@ namespace algorithm
 } // namespace algorithm
 
 #endif // INSERTIONSORT_H
-
