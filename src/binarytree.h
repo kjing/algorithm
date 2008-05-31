@@ -111,6 +111,7 @@ namespace algorithm
         /// \brief Perform consistency check on the tree.
         /// \return true if the tree is consistent, false otherwise.
         bool is_consistent(void) const;
+
         /// \brief Perform consistency check on the sub-tree rooted at node <b>nid</b>.
         /// \param[in] nid The index of the root node of the sub-tree.
         /// \return true if the sub-tree rooted at node <b>nid</b> is consistent, false otherwise.
