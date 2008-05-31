@@ -330,6 +330,16 @@ namespace algorithm
                 // Only root or free nodes have parent links as -1.
                 // And we should re-locate the root node if encountered.
                 if (m_nodes[rid].parent < 0 && rid != m_root) {
+                    // Remove node rid out of the free-node list.
+                    if (m_nodes[rid].left >= 0) {
+                        m_nodes[m_nodes[rid].left].right = m_nodes[rid].right;
+                    }
+                    if (m_nodes[rid].right >= 0) {
+                        m_nodes[m_nodes[rid].right].left = m_nodes[rid].left;
+                    }
+                    m_nodes[rid].parent = -1;
+                    m_nodes[rid].left = -1;
+                    m_nodes[rid].right = -1;
                     continue;
                 }
 
