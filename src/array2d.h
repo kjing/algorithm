@@ -92,6 +92,7 @@ namespace algorithm
         assert(rhs.m_nrow >= 0);
         assert(rhs.m_ncol >= 0);
         assert(rhs.m_nrow * rhs.m_ncol >= 0);
+        assert(this != &rhs);
 
         this->operator=(rhs);
     }
