@@ -27,6 +27,7 @@
 #define ARRAY2D_H
 
 #include <cassert>
+#include <algorithm>
 
 namespace algorithm
 {
@@ -46,6 +47,12 @@ namespace algorithm
 
         bool operator==(const Array2D<T>& rhs) const;
         bool operator!=(const Array2D<T>& rhs) const;
+
+        /// \brief Resize the dimensions of this array with data preserve.
+        /// \param[in] nrow The number of rows of the new array size.
+        /// \param[in] ncol The number of columns of the new array size.
+        /// \return true if the resize is successful, false otherwise.
+        bool resize(long nrow, long ncol);
 
         long nrow(void) const;
         long ncol(void) const;
@@ -174,6 +181,39 @@ namespace algorithm
     bool Array2D<T>::operator!=(const Array2D<T>& rhs) const
     {
         return !(this->operator==(rhs));
+    }
+
+
+    /// The resize preserves the values of the first <b>min(nrow,m_nrow)</b> rows and
+    /// the first <b>min(ncol,m_ncol)</b> columns.
+    /// \note The resize invalidates all references to the array elements.
+    template <typename T>
+    bool Array2D<T>::resize(long nrow, long ncol)
+    {
+        assert(nrow > 0);
+        assert(ncol > 0);
+        assert(nrow * ncol > 0);
+
+        long size = nrow * ncol;
+        T* d = new T[size];
+        if (d == NULL) return false;
+
+        assert(d != NULL);
+
+        long min_nrow = std::min(m_nrow, nrow);
+        long min_ncol = std::min(m_ncol, ncol);
+        for (long i = 0; i < min_nrow; ++i) {
+            for (long k = 0; k < min_ncol; ++k) {
+                d[i*ncol + k] = m_data[i*m_ncol + k];
+            }
+        }
+
+        delete[] m_data;
+        m_data = d;
+        m_nrow = nrow;
+        m_ncol = ncol;
+
+        return true;
     }
 
 
