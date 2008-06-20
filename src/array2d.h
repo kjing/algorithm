@@ -74,24 +74,24 @@ namespace algorithm
     template <typename T>
     Array2D<T>::Array2D(long nrow, long ncol) : m_data(NULL), m_nrow(nrow), m_ncol(ncol)
     {
-        assert(nrow > 0);
-        assert(ncol > 0);
-        assert(nrow * ncol > 0);
+        assert(nrow >= 0);
+        assert(ncol >= 0);
+        assert(nrow * ncol >= 0);
 
         long size = nrow * ncol;
-        m_data = new T[size];
-
-        assert(m_data != NULL);
+        if (size > 0) {
+            m_data = new T[size];
+            assert(m_data != NULL);
+        }
     }
 
 
     template <typename T>
     Array2D<T>::Array2D(const Array2D<T>& rhs) : m_data(NULL), m_nrow(0), m_ncol(0)
     {
-        assert(rhs.m_nrow > 0);
-        assert(rhs.m_ncol > 0);
-        assert(rhs.m_nrow * rhs.m_ncol > 0);
-        assert(rhs.m_data != NULL);
+        assert(rhs.m_nrow >= 0);
+        assert(rhs.m_ncol >= 0);
+        assert(rhs.m_nrow * rhs.m_ncol >= 0);
 
         this->operator=(rhs);
     }
@@ -100,8 +100,6 @@ namespace algorithm
     template <typename T>
     Array2D<T>::~Array2D(void)
     {
-        assert(m_data != NULL);
-
         delete[] m_data;
         m_data = NULL;
     }
@@ -131,11 +129,13 @@ namespace algorithm
         size = rhs.m_nrow * rhs.m_ncol;
         if (m_nrow != rhs.m_nrow || m_ncol != rhs.m_ncol) {
             delete[] m_data;
+            m_data = NULL;
             m_nrow = rhs.m_nrow;
             m_ncol = rhs.m_ncol;
-            m_data = new T[size];
-
-            assert(m_data != NULL);
+            if (size > 0) {
+                m_data = new T[size];
+                assert(m_data != NULL);
+            }
         }
 
         for (long i = 0; i < size; i++) {
@@ -190,15 +190,17 @@ namespace algorithm
     template <typename T>
     bool Array2D<T>::resize(long nrow, long ncol)
     {
-        assert(nrow > 0);
-        assert(ncol > 0);
-        assert(nrow * ncol > 0);
+        assert(nrow >= 0);
+        assert(ncol >= 0);
+        assert(nrow * ncol >= 0);
 
         long size = nrow * ncol;
-        T* d = new T[size];
-        if (d == NULL) return false;
-
-        assert(d != NULL);
+        T* d = NULL;
+        if (size > 0) {
+            d = new T[size];
+            if (d == NULL) return false;
+            assert(d != NULL);
+        }
 
         long min_nrow = std::min(m_nrow, nrow);
         long min_ncol = std::min(m_ncol, ncol);
