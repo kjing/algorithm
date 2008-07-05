@@ -35,6 +35,7 @@ namespace algorithm
     class Array2D
     {
     public:
+        Array2D(void);
         Array2D(long nrow, long ncol);
         Array2D(const Array2D<T>& rhs);
         ~Array2D(void);
@@ -71,6 +72,12 @@ namespace algorithm
 
 namespace algorithm
 {
+    template <typename T>
+    Array2D<T>::Array2D(void) : m_data(NULL), m_nrow(0), m_ncol(0)
+    {
+    }
+
+
     template <typename T>
     Array2D<T>::Array2D(long nrow, long ncol) : m_data(NULL), m_nrow(nrow), m_ncol(ncol)
     {
