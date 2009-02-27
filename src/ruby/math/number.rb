@@ -157,6 +157,21 @@ module Math
     end
 
 
+    def prime?(n)
+        if n > 2 then
+            m = 2
+            while (r = n % m) != 0 && m*m <= n
+                m += 1
+            end
+            return (r != 0)
+        elsif n == 2 then
+            return true
+        else
+            return false
+        end
+    end
+
+
     module_function :abs
     module_function :even?
     module_function :odd?
@@ -167,6 +182,7 @@ module Math
     module_function :gcd_extended_Euclid
     module_function :gcd_binary
     module_function :lcm
+    module_function :prime?
 
 end # module Math
 end # module Algorithm
