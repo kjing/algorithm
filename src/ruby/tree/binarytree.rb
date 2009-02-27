@@ -25,8 +25,6 @@
 #---------------------------------------------------------------------
 
 
-require 'forwardable'
-require 'tree/keyvalue'
 require 'tree/interface/binarytree'
 require 'tree/generic/binarytree'
 
@@ -37,7 +35,6 @@ module Tree
     # Generic binary tree node implementation.
     class BinaryTreeNode
         include BinaryTreeNodeInterface
-        extend Forwardable
 
         def initialize(kv, pnode, lnode = nil, rnode = nil)
             @key_value = kv
@@ -45,8 +42,6 @@ module Tree
             @left = lnode
             @right = rnode
         end
-
-        def_delegators :@key_value, :key, :value
 
     public
         attr_accessor :key_value, :parent, :left, :right
@@ -82,8 +77,8 @@ module Tree
             return self
         end
 
-        def remove(k)
-            result = generic_remove(k)
+        def remove(kv)
+            result = generic_remove(kv)
             @size -= 1 if result
             return self
         end
@@ -98,8 +93,6 @@ module Tree
 
         def root;               return @root;           end
         def root=(node);        return @root = node;    end
-        def key(node);          return node.key;        end
-        def value(node);        return node.value;      end
         def key_value(node);    return node.key_value;  end
         def parent(node);       return node.parent;     end
         def left(node);         return node.left;       end
@@ -166,8 +159,8 @@ module Tree
             return self
         end
 
-        def remove(k)
-            result = generic_remove(k)
+        def remove(kv)
+            result = generic_remove(kv)
             @size -= 1 if result
             return self
         end
@@ -183,8 +176,6 @@ module Tree
 
         def root;               return @root_id;                    end
         def root=(nid);         return @root_id = nid;              end
-        def key(nid);           return @node_list[nid].key;         end
-        def value(nid);         return @node_list[nid].value;       end
         def key_value(nid);     return @node_list[nid].key_value;   end
         def parent(nid);        return @node_list[nid].parent;      end
         def left(nid);          return @node_list[nid].left;        end

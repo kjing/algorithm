@@ -52,20 +52,17 @@ module GenericRedBlackTree
     public
 
         def insert(kv)
-            kv = KeyOnly.new(kv) if not kv.kind_of?(KeyValueInterface)
-
             parent_node = null_node
             node = root
-            k = kv.key
             while node != null_node
                 parent_node = node
-                node = (k < key(node)) ? left(node) : right(node)
+                node = (kv < key_value(node)) ? left(node) : right(node)
             end
 
             if parent_node == null_node then
                 znode = create_red_node(kv, parent_node, null_node, null_node)
                 self.root = znode
-            elsif k < key(parent_node) then
+            elsif kv < key_value(parent_node) then
                 znode = create_red_node(kv, parent_node, null_node, null_node)
                 set_left(parent_node, znode)
             else
@@ -135,10 +132,8 @@ module GenericRedBlackTree
 
     public
 
-        def remove(k)
-            k = k.key if k.kind_of?(KeyValueInterface)
-
-            node = search_node(k)
+        def remove(kv)
+            node = search_node(kv)
             if node != null_node then
                 result = remove_node(node)
                 result or raise "Removal of node fails?"

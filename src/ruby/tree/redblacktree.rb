@@ -25,7 +25,6 @@
 #---------------------------------------------------------------------
 
 
-require 'tree/keyvalue'
 require 'tree/binarytree'
 require 'tree/interface/redblacktree'
 require 'tree/generic/redblacktree'
@@ -107,8 +106,8 @@ module Tree
             return self
         end
 
-        def remove(k)
-            result = generic_remove(k)
+        def remove(kv)
+            result = generic_remove(kv)
             @size -= 1 if result
             return self
         end
@@ -123,8 +122,6 @@ module Tree
 
         def root;               return @root;           end
         def root=(node);        return @root = node;    end
-        def key(node);          return node.key;        end
-        def value(node);        return node.value;      end
         def key_value(node);    return node.key_value   end
         def parent(node);       return node.parent;     end
         def left(node);         return node.left;       end

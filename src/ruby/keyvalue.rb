@@ -25,11 +25,10 @@
 #---------------------------------------------------------------------
 
 
-require 'tree/interface/keyvalue'
+require 'interface/keyvalue'
 
 
 module Algorithm
-module Tree
 
     # Generic key implementation.
     class KeyOnly
@@ -87,5 +86,4 @@ module Tree
         attr_reader :value
     end
 
-end # module Tree
 end # module Algorithm

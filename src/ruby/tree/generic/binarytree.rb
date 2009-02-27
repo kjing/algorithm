@@ -89,13 +89,13 @@ module GenericBinaryTree
 
         def min
             node = min_node(root)
-            return (node != null_node) ? [key(node), value(node)] : [nil, nil]
+            return (node != null_node) ? key_value(node) : nil
         end
 
 
         def max
             node = max_node(root)
-            return (node != null_node) ? [key(node), value(node)] : [nil, nil]
+            return (node != null_node) ? key_value(node) : nil
         end
 
     private
@@ -144,14 +144,11 @@ module GenericBinaryTree
     public
 
         def insert(kv)
-            kv = KeyOnly.new(kv) if not kv.kind_of?(KeyValueInterface)
-
             parent_node = null_node
             node = root
-            k = kv.key
             while node != null_node
                 parent_node = node
-                if k < key(node) then
+                if kv < key_value(node) then
                     node = left(node)
                 else
                     node = right(node)
@@ -160,7 +157,7 @@ module GenericBinaryTree
 
             if parent_node == null_node then
                 self.root = create_node(kv, null_node)
-            elsif k < key(parent_node) then
+            elsif kv < key_value(parent_node) then
                 set_left(parent_node, create_node(kv, parent_node))
             else
                 set_right(parent_node, create_node(kv, parent_node))
@@ -176,10 +173,8 @@ module GenericBinaryTree
 
     public
 
-        def remove(k)
-            k = k.key if k.kind_of?(KeyValueInterface)
-
-            node = search_node(k)
+        def remove(kv)
+            node = search_node(kv)
             if node != null_node then
                 result = remove_node(node)
                 result or raise "Removal of node fails?"
@@ -231,19 +226,17 @@ module GenericBinaryTree
 
     public
 
-        def search(k)
-            k = k.key if k.kind_of?(KeyValueInterface)
-
-            node = search_node(k)
-            return (node != null_node) ? value(node) : nil
+        def search(kv)
+            node = search_node(kv)
+            return (node != null_node) ? key_value(node) : nil
         end
 
     private
 
-        def search_node(k)
+        def search_node(kv)
             node = root
-            while node != null_node && k != key(node)
-                if k < key(node) then
+            while node != null_node && kv != key_value(node)
+                if kv < key_value(node) then
                     node = left(node)
                 else
                     node = right(node)
