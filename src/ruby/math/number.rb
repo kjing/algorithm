@@ -54,10 +54,27 @@ module Math
     end
 
 
+    def gcd(a, b)
+        a = abs(a)
+        b = abs(b)
+        return gcd_Euclid(a, b)
+    end
+
+
+    # Euclid's GCD algorithm.
+    def gcd_Euclid(a, b)
+        (a >= 0 && b >= 0) or raise "Inputs a and b should be >= 0"
+
+        return (b == 0) ? a : gcd_Euclid(b, a % b)
+    end
+
+
     module_function :abs
     module_function :even?
     module_function :odd?
     module_function :factorial
+    module_function :gcd
+    module_function :gcd_Euclid
 
 end # module Math
 end # module Algorithm
