@@ -28,6 +28,7 @@
 module Algorithm
 
     module InsertionSortInternal; end
+    module MergeSortInternal; end
 
 
     def assert_sorted(list, first = 0, last = list.length-1)
@@ -52,7 +53,23 @@ module Algorithm
     end
 
 
+    def merge_sort(list, first = 0, last = list.length-1)
+        include MergeSortInternal
+
+        if first < last then
+            mid = (first + last) / 2
+            merge_sort(list, first, mid)
+            merge_sort(list, mid+1, last)
+            merge(list, first, mid, last)
+        end
+
+        assert_sorted(list, first, last) if $DEBUG
+        return nil
+    end
+
+
     module_function :insertion_sort
+    module_function :merge_sort
 
 end # module Algorithm
 
@@ -77,6 +94,48 @@ module Algorithm
                 vacant -= 1
             end
             return xloc
+        end
+
+    end
+
+
+    module MergeSortInternal
+
+        def merge(list, first, mid, last)
+            n = last - first + 1
+            k = mid - first + 1
+            m = n - k
+            ia = ib = ic = 0
+            sa = first
+            sb = mid + 1
+            c = []
+
+            while ia < k && ib < m
+                if list[sa + ia] <= list[sb + ib] then
+                    c[ic] = list[sa + ia]
+                    ia += 1
+                    ic += 1
+                else
+                    c[ic] = list[sb + ib]
+                    ib += 1
+                    ic += 1
+                end
+            end
+            if ia >= k then
+                for i in 0...n-ic
+                    c[ic + i] = list[sb + ib + i]
+                end
+            else
+                for i in 0...n-ic
+                    c[ic + i] = list[sa + ia + i]
+                end
+            end
+
+            for i in 0...n
+                list[first + i] = c[i]
+            end
+
+            return nil
         end
 
     end
