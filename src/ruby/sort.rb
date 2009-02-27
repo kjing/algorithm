@@ -27,11 +27,58 @@
 
 module Algorithm
 
+    module InsertionSortInternal; end
+
+
     def assert_sorted(list, first = 0, last = list.length-1)
         for i in first..last-1
             list[i] <= list[i+1] or raise "Assert sorted failed!"
         end
         return true
+    end
+
+
+    def insertion_sort(list, first = 0, last = list.length-1)
+        include InsertionSortInternal
+
+        for i in first..last
+            current = list[i]
+            xloc = shift_vacant(list, i, current, first)
+            list[xloc] = current
+        end
+
+        assert_sorted(list, first, last) if $DEBUG
+        return nil
+    end
+
+
+    module_function :insertion_sort
+
+end # module Algorithm
+
+
+######################################################################
+# Internal
+######################################################################
+
+module Algorithm
+
+    module InsertionSortInternal
+
+        def shift_vacant(list, xindex, x, first = 0)
+            vacant = xindex
+            xloc = first
+            while vacant > first
+                if list[vacant-1] <= x then
+                    xloc = vacant
+                    break
+                end
+                list[vacant] = list[vacant-1]
+                vacant -= 1
+            end
+            return xloc
+        end
+
     end
 
 end # module Algorithm
