@@ -95,6 +95,62 @@ module Math
     end
 
 
+    # binary GCD found in NIST dads site.
+    # http://www.nist.gov/dads/HTML/binaryGCD.html
+    #
+    # Note: Discovered by J. Stein in 1967. Another source says discovered
+    # by R. Silver and J. Tersian in 1962 and published by G. Stein in 1967.
+    #
+    # The algorithm uses the following observations:
+    # * If _u_ and _v_ are both even, gcd(u,v) = 2 gcd(u/2, v/2).
+    # * If _u_ is even and _v_ is odd, gcd(u,v) = gcd(u/2, v).
+    # * Otherwise both are odd, and gcd(u,v) = gcd(|u-v|/2, v). (Euclid's algorithm with a
+    #   division by 2 since the difference of two odd numbers is even.)
+    #
+    # Binary GCD Algorithm:
+    #   1.    g = 1
+    #   2.    while u is even and v is even
+    #   3.        u = u/2 (right shift)
+    #   4.        v = v/2
+    #   5.        g = 2*g (left shift)
+    #   6.    Now u or v (or both) are odd.
+    #   7.    while u > 0
+    #   8.        if u is even, u = u/2
+    #   9.        else if v is even, v = v/2
+    #   10.       else
+    #   11.           t = |u-v|/2
+    #   12.           if u < v, then v = t else u = t
+    #   13.   return v*g
+    def gcd_binary(a, b)
+        g = 1
+        u = abs(a)
+        v = abs(b)
+
+        while even?(u) && even?(v)
+            u /= 2
+            v /= 2
+            g *= 2
+        end
+
+        while u > 0
+            if even?(u) then
+                u /= 2
+            elsif even?(v) then
+                v /= 2
+            else
+                t = abs(u-v) / 2
+                if u < v then
+                    v = t
+                else
+                    u = t
+                end
+            end
+        end
+
+        return v*g
+    end
+
+
     module_function :abs
     module_function :even?
     module_function :odd?
@@ -103,6 +159,7 @@ module Math
     module_function :gcd_extended
     module_function :gcd_Euclid
     module_function :gcd_extended_Euclid
+    module_function :gcd_binary
 
 end # module Math
 end # module Algorithm
