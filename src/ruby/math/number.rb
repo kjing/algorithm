@@ -43,9 +43,21 @@ module Math
     end
 
 
+    def factorial(n)
+        n >= 0 or raise "Expect n >= 0, but got n = #{n}"
+
+        k = 1
+        for i in 1..n
+            k *= i
+        end
+        return k
+    end
+
+
     module_function :abs
     module_function :even?
     module_function :odd?
+    module_function :factorial
 
 end # module Math
 end # module Algorithm
