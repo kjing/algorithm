@@ -46,6 +46,11 @@ module Math
     end
 
 
+    def coprime?(a, b)
+        return (gcd(a, b) == 1) ? true : false
+    end
+
+
     def factorial(n)
         n >= 0 or raise "Expect n >= 0, but got n = #{n}"
 
@@ -175,6 +180,7 @@ module Math
     module_function :abs
     module_function :even?
     module_function :odd?
+    module_function :coprime?
     module_function :factorial
     module_function :gcd
     module_function :gcd_extended
