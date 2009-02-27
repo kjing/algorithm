@@ -29,8 +29,6 @@ module Algorithm
 module Tree
 
     module BinaryTreeNodeInterface
-        def key;                raise NotImplementedError; end
-        def value;              raise NotImplementedError; end
         def key_value;          raise NotImplementedError; end
         def key_value=;         raise NotImplementedError; end
         def parent;             raise NotImplementedError; end
@@ -57,8 +55,6 @@ module Tree
     private
         def root;                       raise NotImplementedError; end
         def root=(node);                raise NotImplementedError; end
-        def key(node);                  raise NotImplementedError; end
-        def value(node);                raise NotImplementedError; end
         def key_value(node);            raise NotImplementedError; end
         def parent(node);               raise NotImplementedError; end
         def left(node);                 raise NotImplementedError; end
