@@ -25,6 +25,9 @@
 #---------------------------------------------------------------------
 
 
+require 'assert'
+
+
 module Algorithm
 module Math
 
@@ -61,6 +64,13 @@ module Math
     end
 
 
+    def gcd_extended(a, b)
+        a = abs(a)
+        b = abs(b)
+        return gcd_extended_Euclid(a, b)
+    end
+
+
     # Euclid's GCD algorithm.
     def gcd_Euclid(a, b)
         (a >= 0 && b >= 0) or raise "Inputs a and b should be >= 0"
@@ -69,12 +79,30 @@ module Math
     end
 
 
+    # Extended Euclid's GCD algorithm.
+    # TODO: Annotate return values.
+    def gcd_extended_Euclid(a, b)
+        (a >= 0 && b >= 0) or raise "Inputs a and b should be >= 0"
+
+        if b == 0 then
+            return a, 1, 0
+        end
+        d, x, y = gcd_extended_Euclid(b, a % b)
+        x, y = y, x - (a/b)*y
+
+        Assert.assert(d == a*x + b*y) if $DEBUG
+        return d, x, y
+    end
+
+
     module_function :abs
     module_function :even?
     module_function :odd?
     module_function :factorial
     module_function :gcd
+    module_function :gcd_extended
     module_function :gcd_Euclid
+    module_function :gcd_extended_Euclid
 
 end # module Math
 end # module Algorithm
