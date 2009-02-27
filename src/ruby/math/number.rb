@@ -33,7 +33,19 @@ module Math
     end
 
 
+    def even?(x)
+        return (x % 2 == 0) ? true : false
+    end
+
+
+    def odd?(x)
+        return (x % 2 != 0) ? true : false
+    end
+
+
     module_function :abs
+    module_function :even?
+    module_function :odd?
 
 end # module Math
 end # module Algorithm
