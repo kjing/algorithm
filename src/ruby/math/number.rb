@@ -151,6 +151,12 @@ module Math
     end
 
 
+    def lcm(a, b)
+        v = gcd(a, b)
+        return (v != 0) ? abs(a / v * b) : 0
+    end
+
+
     module_function :abs
     module_function :even?
     module_function :odd?
@@ -160,6 +166,7 @@ module Math
     module_function :gcd_Euclid
     module_function :gcd_extended_Euclid
     module_function :gcd_binary
+    module_function :lcm
 
 end # module Math
 end # module Algorithm
