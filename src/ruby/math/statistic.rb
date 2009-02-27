@@ -85,9 +85,32 @@ module Math
     end
 
 
+    def randomized_partition!(list, first, last)
+        list.length > 0 or raise "List is empty?"
+        size = last - first + 1
+        p = first + rand(size)
+        pivot = list[p]
+        list[first], list[p] = list[p], list[first]
+        h = first + 1
+        t = last + 1
+        while h < t
+            if list[h] <= pivot then
+                h += 1
+            else
+                t -= 1
+                list[h], list[t] = list[t], list[h]
+            end
+        end
+        list[first] = list[t-1]
+        list[t-1] = pivot
+        return t-1
+    end
+
+
     module_function :find_minmax
     module_function :find_minmax_Simple
     module_function :find_minmax_Simultaneous
+    module_function :randomized_partition!
 
 end # module Math
 end # module Algorithm
