@@ -25,6 +25,9 @@
 #---------------------------------------------------------------------
 
 
+require 'tree/heap'
+
+
 module Algorithm
 
     module InsertionSortInternal; end
@@ -36,6 +39,17 @@ module Algorithm
             list[i] <= list[i+1] or raise "Assert sorted failed!"
         end
         return true
+    end
+
+
+    def heap_sort(list, first = 0, last = list.length-1)
+        h = Tree::MinHeap.new(list[first..last], false)
+        for i in first..last
+            list[i] = h.extract_min
+        end
+
+        assert_sorted(list, first, last) if $DEBUG
+        return nil
     end
 
 
@@ -103,6 +117,7 @@ module Algorithm
     end
 
 
+    module_function :heap_sort
     module_function :insertion_sort
     module_function :merge_sort
     module_function :quick_sort
