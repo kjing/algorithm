@@ -42,6 +42,38 @@ module Algorithm
     end
 
 
+    # Items in +list+ must be integral and >= 0.
+    def counting_sort(list, first = 0, last = list.length-1)
+        list.all? { |x| x >= 0 } or raise "All keys must be >= 0"
+
+        length = last - first + 1
+        if length <= 0 then
+            return nil
+        end
+
+        max = list[first]
+        for j in first+1..last
+            max = list[j] if list[j] > max
+        end
+        b = Array.new(length)
+        c = Array.new(max+1, 0)
+        for j in first..last
+            c[list[j]] += 1
+        end
+        for i in 1...c.length
+            c[i] += c[i-1]
+        end
+        last.downto(first) do |j|
+            v = list[j]
+            b[c[v]-1] = v
+            c[v] -= 1
+        end
+
+        assert_sorted(b) if $DEBUG
+        return b
+    end
+
+
     def heap_sort(list, first = 0, last = list.length-1)
         h = Tree::MinHeap.new(list[first..last], false)
         for i in first..last
@@ -117,6 +149,7 @@ module Algorithm
     end
 
 
+    module_function :counting_sort
     module_function :heap_sort
     module_function :insertion_sort
     module_function :merge_sort
