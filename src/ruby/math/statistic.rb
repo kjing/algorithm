@@ -85,6 +85,30 @@ module Math
     end
 
 
+    def randomized_select_k(list, k, first = 0, last = list.length-1)
+        list.length > 0 or raise "List is empty?"
+        k >= 1 && k <= (last-first+1) or raise "k = #{k} should be >= 1 and <= length."
+        list = list[first..last]
+        return randomized_select_k!(list, k, 0, last-first)
+    end
+
+
+    def randomized_select_k!(list, k, first = 0, last = list.length-1)
+        if first == last then
+            return list[first]
+        end
+        p = randomized_partition!(list, first, last)
+        n = p - first + 1
+        if k == n then
+            return list[p]
+        elsif k < n then
+            return randomized_select_k!(list, k, first, p-1)
+        else
+            return randomized_select_k!(list, k-n, p+1, last)
+        end
+    end
+
+
     def randomized_partition!(list, first, last)
         list.length > 0 or raise "List is empty?"
         size = last - first + 1
@@ -111,6 +135,7 @@ module Math
     module_function :find_minmax_Simple
     module_function :find_minmax_Simultaneous
     module_function :randomized_partition!
+    module_function :randomized_select_k, :randomized_select_k!
 
 end # module Math
 end # module Algorithm
