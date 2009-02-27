@@ -26,12 +26,10 @@
 
 
 module Algorithm
-module Tree
 
     module KeyValueInterface
         def key;                raise NotImplementedError; end
         def value;              raise NotImplementedError; end
     end
 
-end # module Tree
 end # module Algorithm
