@@ -34,6 +34,7 @@ module Tree
     # Generic key implementation.
     class KeyOnly
         include KeyValueInterface
+        include Comparable
 
         def initialize(key)
             @key = key
@@ -43,22 +44,47 @@ module Tree
             return @key
         end
 
+        def eql?(other)
+            if other.kind_of?(KeyValueInterface) then
+                return (@key == other.key && @key == other.value)
+            end
+            return false
+        end
+
+        def <=>(other)
+            case other
+                when KeyValueInterface; return @key <=> other.key
+            end
+            return @key <=> other
+        end
+
+        def coerce(other)
+            return KeyOnly.new(other), self
+        end
+
     public
         attr_reader :key
     end
 
 
     # Generic key value pair implementation.
-    class KeyValue
+    class KeyValue < KeyOnly
         include KeyValueInterface
 
         def initialize(key, value = nil)
-            @key = key
+            super(key)
             @value = value
         end
 
+        def eql?(other)
+            if other.kind_of?(KeyValueInterface) then
+                return (@key == other.key && @value == other.value)
+            end
+            return false
+        end
+
     public
-        attr_reader :key, :value
+        attr_reader :value
     end
 
 end # module Tree
