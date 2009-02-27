@@ -26,3 +26,4 @@
 
 
 require 'tree/binarytree'
+require 'tree/redblacktree'
