@@ -68,8 +68,44 @@ module Algorithm
     end
 
 
+    def quick_sort(list, first = 0, last = list.length-1)
+        # Select a pivot.
+        mid = (first + last + 1) / 2
+        pivot = list[mid]
+
+        # Swap the pivot with the first element.
+        list[mid], list[first] = list[first], pivot
+
+        # Partition into [<= pivot] and [> pivot].
+        i = first + 1
+        k = last + 1
+        while i < k
+            if list[i] <= pivot then
+                i += 1
+            else
+                k -= 1
+                list[i], list[k] = list[k], list[i]
+            end
+        end
+        list[first] = list[k-1]
+        list[k-1] = pivot
+
+        # Recursively sort the two partitions.
+        if first < k-2 then
+            quick_sort(list, first, k-2)
+        end
+        if k < last then
+            quick_sort(list, k, last)
+        end
+
+        assert_sorted(list, first, last) if $DEBUG
+        return nil
+    end
+
+
     module_function :insertion_sort
     module_function :merge_sort
+    module_function :quick_sort
 
 end # module Algorithm
 
