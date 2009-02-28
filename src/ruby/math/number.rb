@@ -216,6 +216,19 @@ module Math
     end
 
 
+    def nbit(n)
+        n >= 0 or raise "Expect n >= 0"
+
+        count = 0
+        m = n
+        while m > 0
+            count += 1
+            m >>= 1
+        end
+        return count
+    end
+
+
     def prime?(n)
         if n > 2 then
             m = 2
@@ -245,6 +258,7 @@ module Math
     module_function :gcd_extended_Euclid
     module_function :gcd_binary
     module_function :lcm
+    module_function :nbit
     module_function :prime?
 
 end # module Math
