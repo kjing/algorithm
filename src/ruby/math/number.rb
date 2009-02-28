@@ -57,6 +57,34 @@ module Math
 
 
     # Reference:
+    # * Introduction to Algorithms - T. H. Cormen, C. E. Leiserson, R. L. Rivest & C. Stein
+    def factor_whp_PollardRho_CLRS(n, ntrial = nil)
+        n = abs(n)
+        if n >= 0 && n <= 3 then return n; end
+
+        ntrial ||= ::Math.sqrt(n).ceil
+        i = 1
+        x = rand(n)
+        y = x
+        k = 2
+        begin
+            i += 1
+            x = (x*x - 1) % n
+            d = gcd(y-x, n)
+            if d != 1 && d != n then
+                return d
+            end
+            if i == k then
+                y = x
+                k *= 2
+            end
+            ntrial -= 1
+        end while ntrial >= 0
+        return n
+    end
+
+
+    # Reference:
     # * An Introduction To The Analysis Of Algorithms - Robert Sedgewick & Philippe Flajolet
     def factor_whp_PollardRho_SF(n)
         n = abs(n)
@@ -208,6 +236,7 @@ module Math
     module_function :odd?
     module_function :coprime?
     module_function :factor_whp
+    module_function :factor_whp_PollardRho_CLRS
     module_function :factor_whp_PollardRho_SF
     module_function :factorial
     module_function :gcd
