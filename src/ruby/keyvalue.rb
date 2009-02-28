@@ -52,7 +52,7 @@ module Algorithm
 
         def <=>(other)
             case other
-                when KeyValueInterface; return @key <=> other.key
+                when KeyValueInterface then return @key <=> other.key
             end
             return @key <=> other
         end
