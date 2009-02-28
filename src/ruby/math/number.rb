@@ -265,6 +265,13 @@ module Math
     end
 
 
+    # Returns false, then +n+ is *definitely* a composite.
+    # Returns true, then +n+ is *probably* a prime.
+    def pseudo_prime_Simple?(n)
+        return (modular_power(2, n-1, n) == 1) ? true : false
+    end
+
+
     module_function :abs
     module_function :even?
     module_function :odd?
@@ -282,6 +289,7 @@ module Math
     module_function :nbit
     module_function :modular_power
     module_function :prime?
+    module_function :pseudo_prime_Simple?
 
 end # module Math
 end # module Algorithm
