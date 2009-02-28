@@ -51,6 +51,32 @@ module Math
     end
 
 
+    def factor_whp(n)
+        return factor_whp_PollardRho_SF(n)
+    end
+
+
+    # Reference:
+    # * An Introduction To The Analysis Of Algorithms - Robert Sedgewick & Philippe Flajolet
+    def factor_whp_PollardRho_SF(n)
+        n = abs(n)
+        if n >= 0 && n <= 3 then return n; end
+
+        a = rand(n)
+        b = a
+        c = rand(n)
+        d = nil
+        begin
+            a = (a*a + c) % n
+            b = (b*b + c)
+            g = b*b
+            b = (g + c) % n
+            d = gcd((a-b) % n, n)
+        end until d != 1
+        return d
+    end
+
+
     def factorial(n)
         n >= 0 or raise "Expect n >= 0, but got n = #{n}"
 
@@ -181,6 +207,8 @@ module Math
     module_function :even?
     module_function :odd?
     module_function :coprime?
+    module_function :factor_whp
+    module_function :factor_whp_PollardRho_SF
     module_function :factorial
     module_function :gcd
     module_function :gcd_extended
