@@ -229,6 +229,27 @@ module Math
     end
 
 
+    # Compute a**b (mod n)
+    def modular_power(a, b, n)
+        a >= 0 or raise "Expect a >= 0"
+        b >= 0 or raise "Expect b >= 0"
+        n > 0 or raise "Expect n > 0"
+
+        c = 0
+        d = 1
+        k = nbit(b)
+        (k-1).downto(0) do |i|
+            c = 2*c
+            d = (d*d) % n
+            if b[i] == 1 then
+                c += 1
+                d = (d*a) % n
+            end
+        end
+        return d
+    end
+
+
     def prime?(n)
         if n > 2 then
             m = 2
@@ -259,6 +280,7 @@ module Math
     module_function :gcd_binary
     module_function :lcm
     module_function :nbit
+    module_function :modular_power
     module_function :prime?
 
 end # module Math
