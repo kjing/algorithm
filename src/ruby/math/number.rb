@@ -272,6 +272,22 @@ module AlgoMath
     end
 
 
+    def pseudo_prime_MillerRabin?(n, ntrial = 25)
+        if n == 1 then return false; end
+        if n == 2 then return true; end
+        if even?(n) then return false; end
+        Assert.assert(odd?(n) && n > 2)
+
+        ntrial.times do
+            a = 1 + rand(n-1)
+            if AlgoMath.composite_witness(a, n) then
+                return false
+            end
+        end
+        return true
+    end
+
+
     module_function :abs
     module_function :even?
     module_function :odd?
@@ -290,6 +306,37 @@ module AlgoMath
     module_function :modular_power
     module_function :prime?
     module_function :pseudo_prime_Simple?
+    module_function :pseudo_prime_MillerRabin?
+
+end # module AlgoMath
+end # module Algorithm
+
+
+######################################################################
+# Internal
+######################################################################
+
+module Algorithm
+module AlgoMath
+
+    def self.composite_witness(a, n)
+        u = n - 1
+        t = 0
+        while even?(u)
+            t += 1
+            u /= 2
+        end
+        # puts "t = #{t}, u = #{u}"
+
+        x1 = modular_power(a, u, n)
+        for i in 1..t
+            x0, x1 = x1, x1*x1 % n
+            if x1 == 1 && x0 != 1 && x0 != n-1 then
+                return true
+            end
+        end
+        return (x1 != 1) ? true : false
+    end
 
 end # module AlgoMath
 end # module Algorithm
