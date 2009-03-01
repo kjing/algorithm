@@ -30,10 +30,6 @@ require 'tree/heap'
 
 module Algorithm
 
-    module InsertionSortInternal; end
-    module MergeSortInternal; end
-
-
     def assert_sorted(list, first = 0, last = list.length-1)
         for i in first..last-1
             list[i] <= list[i+1] or raise "Assert sorted failed!"
@@ -86,11 +82,9 @@ module Algorithm
 
 
     def insertion_sort(list, first = 0, last = list.length-1)
-        include InsertionSortInternal
-
         for i in first..last
             current = list[i]
-            xloc = shift_vacant(list, i, current, first)
+            xloc = Sort.shift_vacant(list, i, current, first)
             list[xloc] = current
         end
 
@@ -100,13 +94,11 @@ module Algorithm
 
 
     def merge_sort(list, first = 0, last = list.length-1)
-        include MergeSortInternal
-
         if first < last then
             mid = (first + last) / 2
             merge_sort(list, first, mid)
             merge_sort(list, mid+1, last)
-            merge(list, first, mid, last)
+            Sort.merge(list, first, mid, last)
         end
 
         assert_sorted(list, first, last) if $DEBUG
@@ -164,9 +156,9 @@ end # module Algorithm
 
 module Algorithm
 
-    module InsertionSortInternal
+    module Sort
 
-        def shift_vacant(list, xindex, x, first = 0)
+        def self.shift_vacant(list, xindex, x, first = 0)
             vacant = xindex
             xloc = first
             while vacant > first
@@ -180,12 +172,8 @@ module Algorithm
             return xloc
         end
 
-    end
 
-
-    module MergeSortInternal
-
-        def merge(list, first, mid, last)
+        def self.merge(list, first, mid, last)
             n = last - first + 1
             k = mid - first + 1
             m = n - k
@@ -222,6 +210,6 @@ module Algorithm
             return nil
         end
 
-    end
+    end # module Sort
 
 end # module Algorithm
