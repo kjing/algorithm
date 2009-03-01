@@ -29,7 +29,7 @@ require 'assert'
 
 
 module Algorithm
-module Math
+module AlgoMath
 
     def abs(x)
         return (x >= 0) ? x : -x
@@ -62,7 +62,7 @@ module Math
         n = abs(n)
         if n >= 0 && n <= 3 then return n; end
 
-        ntrial ||= ::Math.sqrt(n).ceil
+        ntrial ||= Math.sqrt(n).ceil
         i = 1
         x = rand(n)
         y = x
@@ -291,5 +291,5 @@ module Math
     module_function :prime?
     module_function :pseudo_prime_Simple?
 
-end # module Math
+end # module AlgoMath
 end # module Algorithm

@@ -29,7 +29,7 @@ require 'math/number'
 
 
 module Algorithm
-module Math
+module AlgoMath
 
     def find_minmax(list)
         return list.min, list.max
@@ -137,5 +137,5 @@ module Math
     module_function :randomized_partition!
     module_function :randomized_select_k, :randomized_select_k!
 
-end # module Math
+end # module AlgoMath
 end # module Algorithm
