@@ -265,6 +265,11 @@ module AlgoMath
     end
 
 
+    def pseudo_prime?(n)
+        return pseudo_prime_MillerRabin?(n)
+    end
+
+
     # Returns false, then +n+ is *definitely* a composite.
     # Returns true, then +n+ is *probably* a prime.
     def pseudo_prime_Simple?(n)
@@ -305,6 +310,7 @@ module AlgoMath
     module_function :nbit
     module_function :modular_power
     module_function :prime?
+    module_function :pseudo_prime?
     module_function :pseudo_prime_Simple?
     module_function :pseudo_prime_MillerRabin?
 
